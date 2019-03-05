@@ -1,14 +1,13 @@
 package com.example.android.helloworld2.lesson5
 
 fun main(args: Array<String>) {
-
-    val building1 = Building(Wood())
-    building1.build()
-    val building2 = Building(Brick())
-    building2.build()
+    Building(Wood()).build()
+    isSmallBuilding(Building(Wood()))
+    Building(Brick()).build()
+    isSmallBuilding(Building(Brick()))
 }
 
-open class BaseBuildingMaterial(var numberNeeded:Int = 1)
+open class BaseBuildingMaterial(open val numberNeeded:Int = 1)
 class Wood() : BaseBuildingMaterial(4)
 class Brick(): BaseBuildingMaterial(8)
 
@@ -18,4 +17,10 @@ class Building<T: BaseBuildingMaterial>(val materials: T) {
     fun build() {
         println("$actualMaterialsNeeded ${materials::class.simpleName} required" )
     }
+}
+
+fun <T: BaseBuildingMaterial> isSmallBuilding(building: Building<T>) {
+    if (building.actualMaterialsNeeded < 500) {
+        println("Small building")
+    } else println("Big building")
 }
