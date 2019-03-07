@@ -33,20 +33,29 @@ class Game(var path: MutableList<String> = mutableListOf(Directions.START.p.firs
     val north = {
         map.changePosition(Directions.NORTH)
         path.add(Directions.NORTH.p.first)
+        if (!map.isGoodPosition()) move(end)
+        true
     }
     val south = {
         map.changePosition(Directions.SOUTH)
         path.add(Directions.SOUTH.p.first)
+        if (!map.isGoodPosition()) move(end)
+        true
     }
     val east = {
         map.changePosition(Directions.EAST)
         path.add(Directions.EAST.p.first)
+        if (!map.isGoodPosition()) move(end)
+        true
     }
     val west = {
         map.changePosition(Directions.WEST)
         path.add(Directions.WEST.p.first)
+        if (!map.isGoodPosition()) move(end)
+        true
     }
     val end = {
+
         path.add(Directions.END.p.first)
         println("Game Over: $path")
         path.clear()
@@ -54,8 +63,10 @@ class Game(var path: MutableList<String> = mutableListOf(Directions.START.p.firs
     }
 
     fun move(where: () -> Boolean) {
+        where()
     }
     fun makeMove(string: String?) {
+
         when (string) {
             "n" -> move(north)
             "s" -> move(south)
@@ -96,10 +107,13 @@ class Map(val width: Int = 4, val height: Int = 4, val map: Array<BooleanArray> 
         println("To the west is ${getTerrain(position[0] - 1,position[1])}")
     }
     fun changePosition(directions: Directions){
-        for (i in 0..2){
+        for (i in 0..1){
             position[i] = directions.p.second[i] + position[i]
         }
-        println(position)
+
+    }
+    fun isGoodPosition(): Boolean {
+        return getTerrain(position[0],position[1]) == "normal tile"
     }
 }
 
